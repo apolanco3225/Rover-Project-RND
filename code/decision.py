@@ -1,3 +1,6 @@
+# Arturo Polanco Lozano
+# Self Driving Car - Robotics Engineer
+
 import numpy as np
 
 
@@ -66,10 +69,21 @@ def decision_step(Rover):
         Rover.throttle = Rover.throttle_set
         Rover.steer = 0
         Rover.brake = 0
-        
+    """  
     # If in a state where want to pickup a rock send pickup command
     if Rover.near_sample and Rover.vel == 0 and not Rover.picking_up:
         Rover.send_pickup = True
+    """
+        #if near the rock (and not in timeout) pick it up
+    if Rover.near_sample and Rover.count > Rover.near_sample_count + Rover.timeout_after_pickup:
+        Rover.near_sample_count = Rover.count
+
+        Rover.throttle = 0
+        Rover.brake = Rover.brake_set
+        
+        #pick up the rock
+        #if Rover.vel == 0:
+        Rover.pick_up = True
     
     return Rover
 
